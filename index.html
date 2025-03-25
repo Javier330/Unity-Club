@@ -1,0 +1,77 @@
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import Countdown from "react-countdown";
+import { MapPin, Calendar, Ticket } from "lucide-react";
+
+export default function UnityClubDemo() {
+  const [showInvite, setShowInvite] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
+      <motion.h1
+        className="text-5xl font-bold text-gold-500 mb-6"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        Unity Club - Próxima Apertura
+      </motion.h1>
+
+      <Countdown
+        date={new Date("2025-06-01T00:00:00")}
+        renderer={({ days, hours, minutes, seconds }) => (
+          <div className="text-3xl font-semibold">
+            {days}d {hours}h {minutes}m {seconds}s
+          </div>
+        )}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <Card className="bg-gray-900 p-6">
+          <CardContent className="flex flex-col items-center">
+            <Calendar className="text-gold-500 w-10 h-10 mb-4" />
+            <h2 className="text-xl font-bold">Eventos Exclusivos</h2>
+            <p className="text-sm text-gray-400">Próximos eventos, artistas invitados y más.</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-gray-900 p-6">
+          <CardContent className="flex flex-col items-center">
+            <MapPin className="text-gold-500 w-10 h-10 mb-4" />
+            <h2 className="text-xl font-bold">Ubicación Premium</h2>
+            <p className="text-sm text-gray-400">En el corazón de Elche, listo para revolucionar la noche.</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Button
+        className="mt-8 bg-gold-500 hover:bg-gold-600 text-black font-bold py-2 px-4 rounded"
+        onClick={() => setShowInvite(true)}
+      >
+        Solicitar Invitación VIP
+      </Button>
+
+      {showInvite && (
+        <motion.div
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <Card className="bg-gray-900 p-6 text-center max-w-sm">
+            <CardContent>
+              <Ticket className="text-gold-500 w-10 h-10 mb-4 mx-auto" />
+              <h2 className="text-xl font-bold mb-2">¡Eres VIP!</h2>
+              <p className="text-sm text-gray-400">Te notificaremos cuando Unity Club abra sus puertas.</p>
+              <Button
+                className="mt-4 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded"
+                onClick={() => setShowInvite(false)}
+              >
+                Cerrar
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+    </div>
+  );
+}
